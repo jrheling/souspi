@@ -1,4 +1,4 @@
 include README.rst
 include INSTALL.txt
-include templates/*
-include system/*
+include souspi/templates/*
+include souspi/system/*

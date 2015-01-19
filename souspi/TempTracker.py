@@ -101,18 +101,3 @@ class TempTracker(W1ThermSensor):
                 self._last_val = current_val
     
     
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        if os.access(sys.argv[1], os.W_OK):
-            t = TempTracker(sys.argv[1])
-        else:
-            print "Fatal error - can't write to %s" % sys.argv[1]
-            sys.exit(1) 
-    else:
-        t = TempTracker("/tmp/")
-        
-    try:
-        t.runloop()
-    except KeyboardInterrupt:
-        sys.exit(0)
-        

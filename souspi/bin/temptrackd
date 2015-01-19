@@ -1,11 +1,22 @@
 #!/usr/bin/python
 
-import daemon
+import os
 import sys
 
-from TempTracker import TempTracker
+from souspi import TempTracker
 
-with daemon.DaemonContext():
-    
-    t = TempTracker("/tmp/souspi") # FIXME - config
-    t.runloop()
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if os.access(sys.argv[1], os.W_OK):
+            t = TempTracker.TempTracker(sys.argv[1])
+        else:
+            print "Fatal error - can't write to %s" % sys.argv[1]
+            sys.exit(1) 
+    else:
+        t = TempTracker.TempTracker("/tmp/")
+        
+    try:
+        t.runloop()
+    except KeyboardInterrupt:
+        sys.exit(0)
+        

@@ -11,7 +11,7 @@ import ConfigParser
 
 import argparse
 
-import SousPi
+from souspi import SousPi
 
 def cleanup_and_quit():
     logging.info("Closing down SousVideControllerApp.")
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     faulthandler.enable()
 
     cp = ConfigParser.ConfigParser()
-    cp.read("souspi.cfg")  
+    cp.read("/etc/souspi.cfg")  
     logdir = cp.get("general", "log_dir")
     if os.access(logdir, os.W_OK):
         logfile = os.path.normpath(logdir + "/" + "controller.log")

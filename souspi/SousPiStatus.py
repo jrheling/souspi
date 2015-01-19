@@ -14,6 +14,10 @@
 #    limitations under the License.
 #
 
+import json
+
+import souspi
+
 class SousPiStatus(object):
     """ Provides read-only access to key properties of a SousPi instance. 
     
@@ -82,7 +86,7 @@ class SousPiStatus(object):
     
     def write_status_file(self):
         self._refresh_from_obj()
-        atomic_file_write(self.tofile, self.to_JSON(), self.file_uid, self.file_gid)
+        souspi.atomic_file_write(self.tofile, self.to_JSON(), self.file_uid, self.file_gid)
 
     def refresh(self):
         """ Get the most current data into the status object/file. 

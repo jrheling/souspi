@@ -14,6 +14,9 @@
 #    limitations under the License.
 #
 
+import os
+import tempfile
+
 def atomic_file_write(file_to_write, data, uid=None, gid=None):
     """ Atomically (via a tempfile) write data to file at specified path.
     

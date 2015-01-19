@@ -14,8 +14,13 @@
 #    limitations under the License.
 #
 
+import time
 
-class LCDUI(SousPi.SousPiUIBase): 
+import Adafruit_CharLCD
+
+from souspi import SousPiUI
+
+class LCDUI(SousPiUI.SousPiUIBase): 
     """ User interface for a 16x2 LCD + keypad module.
 
         Expects a 5-button keypad (up/down/right/left/select) that can be controlled by
@@ -261,7 +266,7 @@ class LCDUI(SousPi.SousPiUIBase):
                 if self.status.in_water is False:
                     self.lcd.clear()
                     self.lcd.set_cursor(0,0)
-                    self._message("Can't start\nwithout water."")
+                    self._message("Can't start\nwithout water.")
                     self._get_button(20)
                     return
                 

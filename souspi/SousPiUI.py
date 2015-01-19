@@ -14,10 +14,13 @@
 #    limitations under the License.
 #
 
+import ConfigParser
+
+from souspi import StatusFileError, SousPiStatus
 
 class SousPiUIBase(object):
     
-    def __init__(self, cfgfile="souspi.cfg"):
+    def __init__(self, cfgfile="/etc/souspi.cfg"):
         """docstring for __init__"""
         
         cp = ConfigParser.ConfigParser()
@@ -35,7 +38,7 @@ class SousPiUIBase(object):
         self.at_temp_threshold = cp.getfloat("PID", "at_temp_threshold")
         # this could raise an exception if the file is missing / bad
         try:
-            self.status = SousPiStatus(fromfile=self.status_file)
+            self.status = SousPiStatus.SousPiStatus(fromfile=self.status_file)
         except StatusFileError, e:
             # make an empty status object, then hook up the fromfile so that if/when things
             #  are functional later it will work upon refresh

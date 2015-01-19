@@ -3,7 +3,4 @@
 ## make sure temptracker is running
 sv start temptracker || exit 1
 
-# this should be temporary until we have proper module packaging
-cd /home/jrh/souspi/
-
-exec /usr/bin/python ./SousVideControllerApp.py
+exec SousVideControllerApp

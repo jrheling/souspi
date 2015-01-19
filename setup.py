@@ -17,6 +17,8 @@ setup(name='souspi',
                'souspi/bin/SousVideWebUI', 'souspi/bin/temptrackd'],
       include_package_data=True,    ## causes non-python files in the MANIFEST to be included at install time
       install_requires=[
+                'json',
+                'Adafruit_CharLCD',
                 'pid_controller',  
                 'RPi.GPIO',
                 'w1thermsensor'

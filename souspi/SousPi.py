@@ -31,15 +31,16 @@ import json
 
 import RPi.GPIO as GPIO
 
-import PID
-import PID_ATune
+from pid_controller import PID
+from pid_controller import PID_ATune
+from souspi import SousPiStatus
             
 class SousPi(object):
 
     # pylint: disable=E0202
     #    (pylint 0.25.1 can't handle property assignment from init - see http://www.logilab.org/ticket/89786)
     
-    # config defaults
+    # config defaults FIXME - needs updating
     config_defaults = {
         ## general
         'temperature_file': '"/var/souspi/temptracker.dat"', 
@@ -61,7 +62,7 @@ class SousPi(object):
         'alarm_interval': '10',
     }
     
-    def __init__(self, cfgfile="souspi.cfg"):
+    def __init__(self, cfgfile="/etc/souspi.cfg"):
         
         self._init_complete = False
                 
@@ -96,7 +97,7 @@ class SousPi(object):
         self._setup_raspi()
 
         # this could raise an exception if the file can't be written
-        self.status = SousPiStatus(spobj=self, tofile=self.status_file)
+        self.status = SousPiStatus.SousPiStatus(spobj=self, tofile=self.status_file)
         self.status.file_uid = self._file_uid
         self.status.file_gid = self._file_gid
                 

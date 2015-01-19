@@ -10,7 +10,7 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for
 from gevent.wsgi import WSGIServer
 
-import SousPi
+from souspi import SousPiUI
 
 app = Flask(__name__)
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     use_debug_server = False
 
     cp = ConfigParser.ConfigParser()
-    cp.read("souspi.cfg")  
+    cp.read("/etc/souspi.cfg")  
     logdir = cp.get("general", "log_dir")
     if os.access(logdir, os.W_OK):
         logfile = os.path.normpath(logdir + "/" + "webui.log")
@@ -55,7 +55,7 @@ if __name__ == "__main__":
                         level=logging.DEBUG)
     logging.info("Started up SousVideWebUI.")
     
-    spui = SousPi.SousPiWebUI()
+    spui = SousPiUI.SousPiWebUI()
                         
     if use_debug_server is not True:
         http_server = WSGIServer(('', 5000), app)
