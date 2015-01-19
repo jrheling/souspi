@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# remove empty debug files
+find /var/log/souspi -empty -name debug.\* -delete
+
+# and remove debug files more than 5 days old
+find /var/log/souspi -name debug.\* -mtime +5 -delete

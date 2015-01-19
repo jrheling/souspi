@@ -1,0 +1,37 @@
+#!/usr/bin/python 
+
+import os
+import time
+import signal
+import logging
+import ConfigParser
+
+import Adafruit_CharLCD
+
+import SousPi
+
+
+if __name__ == '__main__':
+
+    cp = ConfigParser.ConfigParser()
+    cp.read("souspi.cfg")  
+    logdir = cp.get("general", "log_dir")
+    if os.access(logdir, os.W_OK):
+        logfile = os.path.normpath(logdir + "/" + "lcd_UI.log")
+    else:
+        logfile = "sous_vide_lcd_UI.log"
+
+    logging.basicConfig(filename=logfile, format='%(asctime)s::%(levelname)s::%(message)s', 
+                        level=logging.INFO)
+    logging.info("Started up.")
+
+    lcd = SousPiLCDUI()
+
+    signal.signal(signal.SIGTERM, lcd.blank)
+    
+    try:
+        lcd.main_screen()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        lcd.blank()

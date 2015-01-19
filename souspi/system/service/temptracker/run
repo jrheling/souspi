@@ -1,0 +1,7 @@
+#!/bin/sh
+
+modprobe w1-gpio
+modprobe w1-therm
+
+exec chpst -u souspi:souspi:gpio python /home/jrh/souspi/TempTracker.py /var/souspi
+

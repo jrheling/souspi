@@ -1,0 +1,74 @@
+#!/usr/bin/python
+
+import sys
+import os
+import time
+import signal
+import logging
+import threading
+import faulthandler
+import ConfigParser
+
+import argparse
+
+import SousPi
+
+def cleanup_and_quit():
+    logging.info("Closing down SousVideControllerApp.")
+    if sp is not None:
+        try:
+            sp.cleanup()
+        except:
+            logging.error("Got exception calling sp.cleanup()")
+            sys.exit(1)
+    sys.exit(0)
+
+if __name__ == "__main__":
+
+    ## will dump traceback on SIGSEGV, SIGFPE, SIGABRT, SIGBUS and SIGILL
+    faulthandler.enable()
+
+    cp = ConfigParser.ConfigParser()
+    cp.read("souspi.cfg")  
+    logdir = cp.get("general", "log_dir")
+    if os.access(logdir, os.W_OK):
+        logfile = os.path.normpath(logdir + "/" + "controller.log")
+    else:
+        logfile = "sous_vide_controller.log"
+
+    logging.basicConfig(filename=logfile, format='%(asctime)s::%(levelname)s::%(message)s', 
+                        level=logging.DEBUG)
+    logging.info("Started SousVideControllerApp.")
+
+    sp = SousPi.SousPi()
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--tune", help="run autotune routine", action="store_true")
+    args = parser.parse_args()
+
+    ## gracefully shut down when we get TERM
+    signal.signal(signal.SIGTERM, cleanup_and_quit)
+    
+    ## autotune
+    try:
+        if args.tune:
+            ## can't start without defining a target, so we'll set the target to the 
+            ##    current temp
+            sp.temp_target = sp.last_temp
+            sp.start()
+            logging.info("starting autotune")
+            sp.do_auto_tune()
+            sp.cleanup()
+            sys.exit(0)
+    except KeyboardInterrupt, e:
+        cleanup_and_quit()
+    
+    try:
+        while True:
+            time.sleep(100)
+    except KeyboardInterrupt:
+        cleanup_and_quit()
+    finally:
+        cleanup_and_quit()
+        
+    

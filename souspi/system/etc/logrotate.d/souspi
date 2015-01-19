@@ -1,0 +1,32 @@
+/var/log/souspi/controller.log
+{
+	rotate 4
+	weekly
+	missingok
+	compress
+	postrotate
+		sv hup souspi-controller	
+	endscript
+}
+
+/var/log/souspi/webui.log
+{
+        rotate 4
+        weekly
+        missingok
+        compress
+        postrotate
+                sv hup souspi-webui
+        endscript
+}
+
+/var/log/souspi/lcd_UI.log
+{
+        rotate 4
+        weekly
+        missingok
+        compress
+        postrotate
+                sv hup souspi-lcdui
+        endscript
+}

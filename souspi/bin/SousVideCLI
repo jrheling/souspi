@@ -1,0 +1,21 @@
+#!/usr/bin/python
+
+import sys
+import logging
+
+import SousPi
+
+if __name__ == "__main__":
+
+    logging.basicConfig(filename="sous_vide_cli.log", format='%(asctime)s::%(levelname)s::%(message)s', 
+                        level=logging.DEBUG)
+    logging.info("Started up.")
+
+    cli = SousPi.SousPiCLI()
+
+    try:
+        cli.runloop()
+    except KeyboardInterrupt, SystemExit:
+        # disable the signal
+        logging.info("Closing down.")
+        sys.exit(0)

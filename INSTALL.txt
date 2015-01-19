@@ -1,0 +1,46 @@
+
+# FIXME completely unfinished WIP
+
+dependencies
+
+- RPi.GPIO lib 
+- thermocouple lib ("pip install w1thermsensor")
+- i2c for adafruit shield (https://learn.adafruit.com/adafruit-16x2-character-lcd-plus-keypad-for-raspberry-pi/usage)
+- faulthandler lib ("pip install faulthander")
+- flask ("pip install flask")
+- gevent ("pip install gevent")  [takes a while]
+
+
+system:
+- runit (via apt-get) ("apt-get install runit")
+
+set up ramdisk (tmpfs):
+
+root@host:~# mkdir /var/souspi
+
+add the following line to /etc/fstab:
+	tmpfs    /var/souspi    tmpfs    defaults,size=10m    0    0
+
+create users:
+# useradd -d /usr/local/souspi -m -s /bin/false -u 5000 souspi
+# useradd -d /dev/null -s /bin/false -u 5001 -g 5000 souspi-ui
+
+set up dir perms to allow UI and controller to both write to the necessary dir
+# chown -R souspi: /var/souspi
+
+put souspi user in gpio group
+# usermod -G gpio souspi
+
+prep logging:
+# mkdir /var/log/souspi
+# chown souspi: /var/log/souspi
+
+cp system/etc/logrotate.d/souspi to /etc/logrotate.d/
+
+cp system/etc/cron.daily/souspi to /etc/cron.daily/
+
+set up services in /etc/service/:
+ cp -R system/service/* /etc/service/
+ 
+put config in place
+ cp system/etc/souspi.cfg /etc/ 

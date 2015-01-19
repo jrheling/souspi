@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# this should be temporary until we have proper module packaging
+cd /home/jrh/souspi/
+
+# make sure controller is running first
+sv start souspi-controller || exit 1
+
+exec /usr/bin/python ./SousVideLCDUI.py

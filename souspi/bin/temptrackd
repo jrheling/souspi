@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+import daemon
+import sys
+
+from TempTracker import TempTracker
+
+with daemon.DaemonContext():
+    
+    t = TempTracker("/tmp/souspi") # FIXME - config
+    t.runloop()
