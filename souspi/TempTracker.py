@@ -16,6 +16,10 @@
 #    limitations under the License.
 #
 
+# pylint: disable=E0202
+#    (pylint 0.25.1 can't handle property assignment from init - see http://www.logilab.org/ticket/89786)
+
+
 import os
 import sys
 import tempfile
@@ -23,6 +27,8 @@ from w1thermsensor import W1ThermSensor
 
 class TempTrackerError(Exception):
     """ Exception base class. """
+    def __init__(self):
+        self.msg = ''
     def __str__(self):
         return self.msg
 

@@ -14,9 +14,12 @@
 #    limitations under the License.
 #
 
+import time
+
 import ConfigParser
 
-from souspi import StatusFileError, SousPiStatus
+import SousPiStatus
+from souspi import *
 
 class SousPiUIBase(object):
     
@@ -42,7 +45,7 @@ class SousPiUIBase(object):
         except StatusFileError, e:
             # make an empty status object, then hook up the fromfile so that if/when things
             #  are functional later it will work upon refresh
-            self.status = SousPiStatus()
+            self.status = SousPiStatus.SousPiStatus()
             self.status.fromfile = self.status_file
             self.status.error = True
     

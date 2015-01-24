@@ -15,6 +15,7 @@
 #
 
 import time
+import logging
 
 import Adafruit_CharLCD
 

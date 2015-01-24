@@ -34,6 +34,7 @@ import RPi.GPIO as GPIO
 from pid_controller import PID
 from pid_controller import PID_ATune
 from souspi import SousPiStatus
+from souspi import *
             
 class SousPi(object):
 
